@@ -28,3 +28,9 @@ jobs:
 
     - name: Run OCR script
       run: python ocr.py
+      
+    - name: Upload result
+      uses: actions/upload-artifact@v3
+      with:
+        name: ocr-result
+        path: result.json
