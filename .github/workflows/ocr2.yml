@@ -30,7 +30,7 @@ jobs:
       run: python ocr.py
       
     - name: Upload result
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ocr-result
         path: result.json
