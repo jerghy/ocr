@@ -5,7 +5,7 @@ import json
 ocr = ImgOcr()
 
 # 读取图片并进行OCR识别
-image_path = "input2.png"
+image_path = "input.png"
 result = ocr.ocr(image_path)
 
 # 打印识别结果
