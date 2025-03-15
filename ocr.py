@@ -40,7 +40,7 @@ def pdf_to_images(pdf_path, output_folder):
         pix.save(f'{output_folder}/page_{page_num+1}.png')
 
 # 使用示例
-pdf_name = '高中必刷题数学人教A版必修1.pdf'
+pdf_name = name
 current_file_path = os.path.abspath(__file__)
 pdf_path = os.path.join(os.path.dirname(current_file_path), pdf_name)
 print(pdf_path)
@@ -53,7 +53,7 @@ ocr = ImgOcr()
 outputrelease={}
 pdf_document = fitz.open(pdf_path)
 # 遍历每一页range(len(pdf_document))
-for page_num in range(3):
+for page_num in range(len(pdf_document)):
     pg=f'{output_folder}/page_{page_num+1}.png'
     result = ocr.ocr(pg)
     print(pg)
