@@ -1,3 +1,53 @@
+import requests
+from requests.auth import HTTPBasicAuth
+from tqdm import tqdm
+
+
+name="高中必刷题数学人教A版必修1.pdf"
+# url = "https://chogo.teracloud.jp/dav/documents/output.mp3"
+url = "https://chogo.teracloud.jp/dav/shuati/"+name
+auth = HTTPBasicAuth("ThomasXie", "43rKo29cev5Uzbyp")
+
+response = requests.get(url, auth=auth, stream=True)
+
+if response.status_code == 200:
+    total_size = int(response.headers.get('content-length', 0))
+    with open(name, "wb") as f:
+        for data in tqdm(response.iter_content(1024), total=total_size // 1024, unit='KB'):
+            f.write(data)
+    print("下载成功")
+else:
+    print(f"下载失败，状态码：{response.status_code}")
+
+
+import fitz  # PyMuPDF
+import os
+
+def pdf_to_images(pdf_path, output_folder):
+    # 创建输出文件夹
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    
+    # 打开PDF文件
+    pdf_document = fitz.open(pdf_path)
+    
+    # 遍历每一页并保存为图片
+    for page_num in range(len(pdf_document)):
+        page = pdf_document.load_page(page_num)
+        pix = page.get_pixmap()
+        pix.save(f'{output_folder}/page_{page_num+1}.png')
+
+# 使用示例
+pdf_name = '高中必刷题数学人教A版必修1.pdf'
+current_file_path = os.path.abspath(__file__)
+pdf_path = os.path.join(os.path.dirname(current_file_path), pdf_name)
+print(pdf_path)
+output_folder = f'output_{pdf_name.split(".")[0]}'
+
+pdf_to_images(pdf_path, output_folder)
+
+
+
 from imgocr import ImgOcr
 # import cv2
 import json
@@ -5,7 +55,7 @@ import json
 ocr = ImgOcr()
 
 # 读取图片并进行OCR识别
-image_path = "input.png"
+image_path = "input2.png"
 result = ocr.ocr(image_path)
 
 # 打印识别结果
